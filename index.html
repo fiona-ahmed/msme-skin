@@ -91,23 +91,34 @@
 
   <p id="message"></p>
 
-  <script>
-    const form = document.getElementById("signup-form");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = form.name.value;
-      const email = form.email.value;
+ <script>
+  const form = document.getElementById("signup-form");
+  const message = document.getElementById("message");
 
-      const res = await fetch("https://msme-signup-api-1.onrender.com/signup", {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = form.name.value;
+    const email = form.email.value;
+
+    try {
+      const res = await fetch("https://msme-signup-api.onrender.com/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email }),
       });
 
       const data = await res.json();
-      document.getElementById("message").innerText = data.message;
-      form.reset();
-    });
-  </script>
+
+      // Hide the form and show the message
+      form.style.display = "none";
+      message.innerText = data.message;
+      message.style.fontWeight = "600";
+      message.style.fontSize = "1.2rem";
+    } catch (err) {
+      message.innerText = "Something went wrong. Please try again later.";
+    }
+  });
+</script>
 </body>
 </html>
