@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Join Our List</title>
+</head>
+<body>
+  <h1>Join the Movement</h1>
+  <form id="signup-form">
+    <input type="email" name="email" placeholder="Your email" required />
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById("signup-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = form.email.value;
+
+      const res = await fetch("https://your-api-url.com/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      document.getElementById("message").innerText = data.message;
+      form.reset();
+    });
+  </script>
+</body>
+</html>
