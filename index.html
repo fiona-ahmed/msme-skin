@@ -93,34 +93,34 @@
 
   <p id="message"></p>
 
-  <script>
-    const form = document.getElementById("signup-form");
-    const message = document.getElementById("message");
+<script>
+  const form = document.getElementById("signup-form");
+  const message = document.getElementById("message");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const name = form.name.value;
-      const email = form.email.value;
+    const formData = new FormData(form);
 
-      try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
-          method: "POST",
-          body: JSON.stringify({ name, email }),
-          headers: { "Content-Type": "application/json" }
-        });
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
+        method: "POST",
+        body: formData,
+      });
 
-        if (res.ok) {
-          form.style.display = "none";
-          message.innerText = "You're on the list! 🥂";
-        } else {
-          throw new Error("Network error");
-        }
-      } catch (err) {
-        console.error("Form error:", err);
-        message.innerText = "Something went wrong. Please try again.";
+      if (res.ok) {
+        form.style.display = "none";
+        message.innerText = "You're on the list! 🥂";
+        message.style.fontWeight = "600";
+        message.style.fontSize = "1.2rem";
+      } else {
+        throw new Error("Network error");
       }
-    });
-  </script>
+    } catch (err) {
+      console.error("Form error:", err);
+      message.innerText = "Something went wrong. Please try again.";
+    }
+  });
+</script>
 </body>
 </html>
