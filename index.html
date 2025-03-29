@@ -93,36 +93,35 @@
 
   <p id="message"></p>
 
-<script>
-  const form = document.getElementById("signup-form");
-  const message = document.getElementById("message");
+  <script>
+    const form = document.getElementById("signup-form");
+    const message = document.getElementById("message");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const formData = new FormData(form);
+      const formData = new FormData(form);
 
-    try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
+          method: "POST",
+          body: formData,
+        });
 
-      const text = await res.text();
+        const text = await res.text();
 
-      if (res.ok && text === "Success") {
-        form.style.display = "none";
-        message.innerText = "You're on the list! 🥂";
-        message.style.fontWeight = "600";
-        message.style.fontSize = "1.2rem";
-      } else {
-        throw new Error("Bad response");
+        if (res.ok && text.trim() === "Success") {
+          form.style.display = "none";
+          message.innerText = "You're on the list! 🥂";
+        } else {
+          throw new Error("Unexpected response");
+        }
+      } catch (err) {
+        console.error("Form error:", err);
+        message.innerText = "Something went wrong. Please try again.";
       }
-    } catch (err) {
-      console.error("Form error:", err);
-      message.innerText = "Something went wrong. Please try again.";
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 </html>
+
