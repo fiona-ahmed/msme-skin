@@ -108,13 +108,15 @@
         body: formData,
       });
 
-      if (res.ok) {
+      const text = await res.text();
+
+      if (res.ok && text === "Success") {
         form.style.display = "none";
         message.innerText = "You're on the list! 🥂";
         message.style.fontWeight = "600";
         message.style.fontSize = "1.2rem";
       } else {
-        throw new Error("Network error");
+        throw new Error("Bad response");
       }
     } catch (err) {
       console.error("Form error:", err);
