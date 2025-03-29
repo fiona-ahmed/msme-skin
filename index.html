@@ -69,7 +69,8 @@
       background-color: #40281e;
     }
 
-    #message {
+    #thank-you {
+      display: none;
       margin-top: 20px;
       font-size: 1.2rem;
       font-weight: 600;
@@ -85,43 +86,22 @@
     Be the first to know when we launch – get yourself on our list for our limited first drop!
   </p>
 
-  <form id="signup-form">
-    <input type="text" name="name" placeholder="Name" required />
-    <input type="email" name="email" placeholder="Email" required />
+  <form id="signup-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdSbQoGhARMI9O77xQ6n3R5uhHJwZrshNWcAJQgBFWbeNBsug/formResponse" method="POST" target="hidden_iframe" onsubmit="showMessage()">
+    <input type="text" name="entry.1262932617" placeholder="Name" required />
+    <input type="email" name="entry.1634498531" placeholder="Email" required />
     <button type="submit">I’m in!</button>
   </form>
 
-  <p id="message"></p>
+  <p id="thank-you">You're on the list! 🥂</p>
+
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
 
   <script>
-    const form = document.getElementById("signup-form");
-    const message = document.getElementById("message");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-
-      try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
-          method: "POST",
-          body: formData,
-        });
-
-        const text = await res.text();
-
-        if (res.ok && text.trim() === "Success") {
-          form.style.display = "none";
-          message.innerText = "You're on the list! 🥂";
-        } else {
-          throw new Error("Unexpected response");
-        }
-      } catch (err) {
-        console.error("Form error:", err);
-        message.innerText = "Something went wrong. Please try again.";
-      }
-    });
+    function showMessage() {
+      document.getElementById("signup-form").style.display = "none";
+      document.getElementById("thank-you").style.display = "block";
+    }
   </script>
+
 </body>
 </html>
-
