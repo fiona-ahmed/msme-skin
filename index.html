@@ -8,10 +8,10 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
+      padding: 0 20px;
       background-color: #fffbefff;
       color: #5c3a2e;
-      font-family: 'Poppins', serif;
+      font-family: 'Poppins', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -35,6 +35,7 @@
       font-size: 1.1rem;
       margin-bottom: 30px;
       max-width: 600px;
+      line-height: 1.5;
     }
 
     form {
@@ -69,8 +70,9 @@
     }
 
     #message {
-      margin-top: 15px;
-      font-size: 0.9rem;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -91,30 +93,34 @@
 
   <p id="message"></p>
 
-<script>
-  const form = document.getElementById("signup-form");
-  const message = document.getElementById("message");
+  <script>
+    const form = document.getElementById("signup-form");
+    const message = document.getElementById("message");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const name = form.name.value;
-    const email = form.email.value;
+      const name = form.name.value;
+      const email = form.email.value;
 
-    try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
-        method: "POST",
-        body: JSON.stringify({ name, email }),
-        headers: { "Content-Type": "application/json" }
-      });
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbyadDkJq3TVvfPkBXs9Ex7k9wDNuSDCIgu-LiyPaQ9fFk1PWsQnSqbd2Kv4SYoHmji3/exec", {
+          method: "POST",
+          body: JSON.stringify({ name, email }),
+          headers: { "Content-Type": "application/json" }
+        });
 
-      const data = await res.json();
-      form.style.display = "none";
-      message.innerText = data.message;
-    } catch (err) {
-      message.innerText = "Something went wrong. Please try again.";
-    }
-  });
-</script>
+        if (res.ok) {
+          form.style.display = "none";
+          message.innerText = "You're on the list! 🥂";
+        } else {
+          throw new Error("Network error");
+        }
+      } catch (err) {
+        console.error("Form error:", err);
+        message.innerText = "Something went wrong. Please try again.";
+      }
+    });
+  </script>
 </body>
 </html>
